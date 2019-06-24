@@ -1,0 +1,47 @@
+---
+  - name: sync consul service file
+    vars:
+      nodes:
+        10.11.3.2: agent-one
+        10.11.3.3: agent-two
+        10.11.3.4: agent-three
+    template:
+      src: templates/consul.service.j2
+      dest: /etc/systemd/system/consul.service
+
+  - name: sync nomad service file
+    template:
+      src: templates/nomad.service.j2
+      dest: /etc/systemd/system/nomad.service
+    
+  # daemon-reload
+  - name: systemd daemon-reload
+    systemd:
+      daemon-reload: yes
+
+  - name: sync nomad server config file
+    template:
+      src: templates/nomad_server.hcl.j2
+      dest: /etc/nomad.d/server.hcl
+    
+  - name: sync nomad bin file
+    copy:
+      src: files/nomad
+      dest: /usr/bin
+
+  - name: sync consul bin file
+    copy:
+      src: files/consul
+      dest: /usr/bin
+  
+  - name: start consul service
+    service:
+      name: consul
+      enabled: yes
+      state: started
+
+  - name: start nomad service
+    service:
+      enabled: yes
+      name: nomad
+      state: started

@@ -1,0 +1,13 @@
+[Unit]
+Description=consul
+[Service]
+Type=simple
+ExecStart=/usr/bin/consul agent -server -bootstrap-expect=3 \
+    -data-dir=/tmp/consul -node={{ nodes[ansible_host] }} -bind={{ ansible_host }} \
+    -enable-script-checks=true -config-dir=/etc/consul.d
+
+Restart=always 
+KillMode=process 
+RestartSec=1
+[Install]
+WantedBy=multi-user.target

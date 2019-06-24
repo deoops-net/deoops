@@ -1,0 +1,6 @@
+---
+  - name: deploy nomad masters
+    hosts: masters
+    become: true
+    roles:
+      - {role: 'common', tags: 'common'}

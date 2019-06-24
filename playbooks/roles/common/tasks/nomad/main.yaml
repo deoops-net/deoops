@@ -1,0 +1,5 @@
+---
+  - name: echo some thing
+    yum:
+      name: yum-utils
+      state: present

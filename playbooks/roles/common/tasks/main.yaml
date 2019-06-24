@@ -1,0 +1,3 @@
+---
+  - name: sync bins
+    import_tasks: nomad/install.yaml
